@@ -1,0 +1,21 @@
+import courseParser
+import scheduler
+import os
+ 
+#file_path = r'C:\Users\Katie\Downloads\SmartClassTool\SmartClassTool/Sample_Input4.pdf'
+file_path = './Sample_Input4.pdf'
+
+parsed = courseParser.getContent(file_path)
+CoursesDict= courseParser.createFromParse(parsed)
+CoursesDict = courseParser.readXL("./CPSCXL.xlsx", CoursesDict)
+
+for course in CoursesDict:
+    courseObject = CoursesDict[course]
+    coursePrereqStr = ""
+    for prereqCourse in courseObject.prereq:
+                coursePrereqStr += prereqCourse.CourseNum
+    print(courseObject.CourseNum + "Prereqs: " +coursePrereqStr)
+
+defaultCreditHours = 15
+scheduler.setSchedule(defaultCreditHours, CoursesDict)
+
