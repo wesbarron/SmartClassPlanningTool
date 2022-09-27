@@ -1,0 +1,5 @@
+import GUI
+
+GUI.SmartClassPlanner()
+
+
