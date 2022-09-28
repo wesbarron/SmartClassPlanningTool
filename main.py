@@ -2,9 +2,10 @@ import courseParser
 import scheduler
 import os
  
-#file_path = r'C:\Users\Katie\Downloads\SmartClassTool\SmartClassTool/Sample_Input4.pdf'
-file_path = './Sample_Input4.pdf'
+#file_path = r'C:\Users\Katie\Downloads\SmartClassTool\SmartClassTool\xx\Sample_Input3.pdf'
+file_path = './xx/Sample_Input2.pdf'
 
+print("Starting parser")
 parsed = courseParser.getContent(file_path)
 CoursesDict= courseParser.createFromParse(parsed)
 CoursesDict = courseParser.readXL("./CPSCXL.xlsx", CoursesDict)
