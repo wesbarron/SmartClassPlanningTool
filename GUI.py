@@ -32,12 +32,15 @@ class SmartClassPlanner(tk.Tk):
         self.CrHours_entry = tk.Entry(self, textvariable= self.CrHours).pack()
 
         button = ttk.Button(self,text = "Generate Schedule",command= self.execute).pack(pady=50)
-        tk.Label(self, text="").pack(side=BOTTOM) 
+        button = ttk.Button(self,text= "Quit", command= self.destroy).pack(side= "bottom")
              
 
     def getFilePath(self):
         self.file = filedialog.askopenfilename(filetypes=[("PDFs","*.pdf")])
-        self.fileSelected.set(os.path.basename(self.file))
+        if self.file:
+            self.fileSelected.set(os.path.basename(self.file))
+        else:
+            self.fileSelected.set("No File Selected")
         
     def execute(self):
         if self.file:

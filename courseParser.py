@@ -114,16 +114,16 @@ class Course:
         self.CreditHours = CreditHours
         self.Completed= completed
         self.prereq=[]
-        self.takeable= True
+        self.takeable= False
     def isComplete(self):
         return self.Completed
     def canBeTaken(self):
         for course in range(len(self.prereq)):
             if(self.prereq[course].isComplete()):
-                self.takeable = True
+                pass
             else:
-                self.takeable=False
-        return self.takeable
+                return False
+        return True
 
 class Semester:
     def __init__(self,term,hours):
@@ -146,4 +146,3 @@ class Semester:
     def printSchedule(self):
         for x in self.Courses:
             print (self.Courses[x].CourseNum)
-
