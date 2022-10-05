@@ -4,3 +4,4 @@ networkx == 2.8.7
 requests == 2.27.1
 tkinter
 os
+pytest
