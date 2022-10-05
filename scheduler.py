@@ -114,21 +114,21 @@ def setSchedule(creditHours, CoursesDict):
                                 
                         # if course.CourseNum not in coursesInWorkBook:
                         #     print("Courses not in WorkBook " + course.CourseNum)
-                        if course.CourseNum not in coursesInWorkBook:
-                            j = i + 1
-                            #print(semesterCreditHours)
-                            ws.cell(1,4).value = "New Semester"
-                            ws.cell(1,5).value = "Credit Hours"
-                            ws.cell(1,4).fill = redFill
-                            ws.cell(1,5).fill = redFill
-                            ws.cell(1,4).font = Font(color=colors.WHITE)
-                            ws.cell(1,5).font = Font(color=colors.WHITE)
-                            ws.cell(j+1,4).value = course.CourseNum
-                            ws.cell(j+1,5).value = course.CreditHours
-                            #print(workBookHours+course.CreditHours)
-                            print(course.CreditHours)
-                            logHours += course.CreditHours
-                            print(logHours)
+#                         if course.CourseNum not in coursesInWorkBook:
+#                             j = i + 1
+#                             #print(semesterCreditHours)
+#                             ws.cell(1,4).value = "New Semester"
+#                             ws.cell(1,5).value = "Credit Hours"
+#                             ws.cell(1,4).fill = redFill
+#                             ws.cell(1,5).fill = redFill
+#                             ws.cell(1,4).font = Font(color=colors.WHITE)
+#                             ws.cell(1,5).font = Font(color=colors.WHITE)
+#                             ws.cell(j+1,4).value = course.CourseNum
+#                             ws.cell(j+1,5).value = course.CreditHours
+#                             #print(workBookHours+course.CreditHours)
+#                             print(course.CreditHours)
+#                             logHours += course.CreditHours
+#                             print(logHours)
                             
                   
             else:
