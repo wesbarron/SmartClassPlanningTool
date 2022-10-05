@@ -109,50 +109,7 @@ def setSchedule(creditHours, CoursesDict):
                         coursesInWorkBook.clear()
 
                         
-<<<<<<< HEAD
-                
-=======
-                        if((workBookHours + course.CreditHours)<=creditHoursAllowed):
-                            j = i + 1
-                            #print(semesterCreditHours)
-                            poppedCourseIndexes.sort(reverse=True)
-                            ws.cell(1,1).value = "New Semester"
-                            ws.cell(1,2).value = "Credit Hours"
-                            ws.cell(1,1).fill = redFill
-                            ws.cell(1,2).fill = redFill
-                            ws.cell(1,1).font = Font(color=colors.WHITE)
-                            ws.cell(1,2).font = Font(color=colors.WHITE)
-                            ws.cell(j+1,1).value = course.CourseNum
-                            ws.cell(j+1,2).value = course.CreditHours
-                            print("This is the course number : " + course.CourseNum)
-                            workBookHours += course.CreditHours
-                            #coursesInWorkBook.append(course.CourseNum)
-                            logHours = workBookHours + course.CreditHours
-                        for x in range(j+1, len(coursesInSchedule)+1):
-                            #coursesInWorkBook.clear()
-                            coursesInWorkBook.append(ws.cell(x,1).value)
-                        #print ("Courses from the sheet " + str(coursesInWorkBook))
-                                
-                        # if course.CourseNum not in coursesInWorkBook:
-                        #     print("Courses not in WorkBook " + course.CourseNum)
-#                         if course.CourseNum not in coursesInWorkBook:
-#                             j = i + 1
-#                             #print(semesterCreditHours)
-#                             ws.cell(1,4).value = "New Semester"
-#                             ws.cell(1,5).value = "Credit Hours"
-#                             ws.cell(1,4).fill = redFill
-#                             ws.cell(1,5).fill = redFill
-#                             ws.cell(1,4).font = Font(color=colors.WHITE)
-#                             ws.cell(1,5).font = Font(color=colors.WHITE)
-#                             ws.cell(j+1,4).value = course.CourseNum
-#                             ws.cell(j+1,5).value = course.CreditHours
-#                             #print(workBookHours+course.CreditHours)
-#                             print(course.CreditHours)
-#                             logHours += course.CreditHours
-#                             print(logHours)
-                            
-                  
->>>>>>> 61b89827fc0999028a9d22eeb5c4940543ca1b31
+
             else:
                 poppedCourseIndexes.append(i)
             poppedCourseIndexes.sort(reverse=True)
@@ -161,44 +118,6 @@ def setSchedule(creditHours, CoursesDict):
                 coursesChecklist.pop(index)
             schedule.append(newSemester)
 
-
-    # if(len(coursesChecklist)>0):
-    #     for course in coursesChecklist:
-    #         if((semesterCreditHours+course.CreditHours)>creditHours):
-    #             schedule.append(newSemester)
-    #             break
-    #         #Check for courses with prereqs if prereqs are in coursesInSchedule array
-    #         if(len(course.prereq) > 0):
-    #             for prereqCourse in course.prereq:
-    #                 for courseInSchedule in coursesInSchedule:
-    #                     if(prereqCourse == courseInSchedule):
-    #                         exists = courseInSchedule in newSemester
-    #                         if(exists == False):
-    #                             #takes prereq off the prereq array
-    #                             course.prereq.remove(prereqCourse)
-    #         #Check for courses without prereq
-    #         elif(len(course.prereq)==0):
-    #             courseFromChecklist = coursesChecklist.pop(0)
-    #             newSemester.append(courseFromChecklist)
-    #             coursesInSchedule.append(courseFromChecklist)
-    #             semesterCreditHours += course.CreditHours 
-
-    # totalColumn = len(coursesInSchedule)
-    # ws.cell(totalColumn+3,1).value = "Total"
-    # ws.cell(totalColumn+3,2).value = creditHoursAllowed
-    # ws.cell(totalColumn+3,1).fill = redFill
-    # ws.cell(totalColumn+3,2).fill = redFill
-    # ws.cell(totalColumn+3,1).font = Font(color=colors.WHITE)
-    # ws.cell(totalColumn+3,2).font = Font(color=colors.WHITE)
-    # worksheet.set_border(ws, "A1:B"+str(totalColumn+3))
-
-    # ws.cell(totalColumn+3,4).value = "Total"
-    # ws.cell(totalColumn+3,5).value = creditHoursAllowed
-    # ws.cell(totalColumn+3,4).fill = redFill
-    # ws.cell(totalColumn+3,5).fill = redFill
-    # ws.cell(totalColumn+3,4).font = Font(color=colors.WHITE)
-    # ws.cell(totalColumn+3,5).font = Font(color=colors.WHITE)
-    # worksheet.set_border(ws, "D1:E"+str(totalColumn+3))
     first = 1
     second = 1
     third = 1
