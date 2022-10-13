@@ -1,0 +1,7 @@
+openpyxl == 3.0.10
+PyPDF2 == 2.11.0
+networkx == 2.8.7
+requests == 2.27.1
+tkinter
+os
+pytest
