@@ -49,8 +49,9 @@ class SmartClassPlanner(tk.Tk):
             CoursesDict = courseParser.readXL("CPSCXL.xlsx", CoursesDict)
             global globalHoursCount
             globalHoursCount = self.CrHours.get()
+            startingSemester = "Fall" # TO DO - add code to get date input for starting semester
             if self.CrHours.get() > 2:
-                scheduler.setSchedule(self.CrHours.get(), CoursesDict)
+                scheduler.setSchedule(self.CrHours.get(), startingSemester, CoursesDict)
             else:
                 messagebox.showerror("Error", "Not enough credit hours each semester")
         else:

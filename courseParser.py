@@ -25,10 +25,10 @@ def createFromParse(lines):
     for x in range(len(lines)):
         words = lines[x].split()#Split each line word by word
         if "PEDS" in words:#if PEDS Course is needed, create course object
-            course= Course("PEDS 2378",1,False)
+            course= Course("PEDS 2378",1, "1,1,1",False)
             Dictionary[course.CourseNum] = course
         elif "LEAD" in words:#if LEAD course is needed, create Course object
-            course= Course("LEAD 1705",2,False)
+            course= Course("LEAD 1705",2, "1,1,1",False)
             Dictionary[course.CourseNum] = course
         elif (words[-1] == "or"):#If credit can be satisfied by another class, move to next class
             pass
@@ -43,11 +43,11 @@ def createFromParse(lines):
                 cr = re.match("Credits", lines[x])
                 if (cr):#if a certain amount of credits are required, create the course with that many hours. eg: 4 credits in BIOL 1225K
                     hours = re.search(r'\d{1}', lines[x])
-                    course = Course(num,hours,False)
+                    course = Course(num,hours,"1,1,1",False)
                 elif(code.endswith("K")):#if course ends with K, it is a lab and has 4 credit hours
-                    course = Course(num, 4, False)
+                    course = Course(num, 4,"1,1,1", False)
                 else:#Otherwise, class is 3 credit hours
-                    course = Course(num, 3, False)
+                    course = Course(num, 3,"1,1,1", False)
                 Dictionary[num] = course #Add course to Dictionary
                 #print("Matching Word:",result2.group(), result.group())
             elif (result2 and result3):#if lines has 4 capital letters and digit@ it is an elective
@@ -57,7 +57,7 @@ def createFromParse(lines):
                 hours = int(hours /3)
                 for x in range(hours):#Divide number of credits needed by 3 to get number of elective classes are needed
                     num= title + code+ str(x+1)
-                    course = Course(num, 3, False)
+                    course = Course(num, 3,"1,1,1", False)
                     Dictionary[course.CourseNum] = course#add course to Dictionary
             elif (result3):#If only a digit@ is found, it is a general elective
                 code= "Elective"
@@ -65,7 +65,7 @@ def createFromParse(lines):
                 hours = int(hours / 3)
                 for x in range(hours):#Divide number of credits needed by 3 to get number of elective classes are needed
                     code= code + str(x + 1)
-                    course = Course(code, 3, False)
+                    course = Course(code, 3,"1,1,1", False)
                     Dictionary[course.CourseNum] = course #Add course to Dictionary
     return Dictionary
 
@@ -80,11 +80,12 @@ def readXL(filePath,parsedDict):
     for i in range (1,row_max + 1): #Read 1st 2 columns of xl file and create courses accordingly
         CourseNum= sheet.cell(i, 1).value
         Hours= sheet.cell(i,2).value
+        SemesterAvailability= sheet.cell(i,3).value
         #print(CourseNum+ " "+ str(Hours))
         if CourseNum in parsedDict.keys():
-            course= Course(CourseNum,Hours,False)#If the course is already in the courses parsed from degreeworks, the class is created as not being completed
+            course= Course(CourseNum,Hours,SemesterAvailability,False)#If the course is already in the courses parsed from degreeworks, the class is created as not being completed
         else:
-            course= Course(CourseNum,Hours,True)#If the course is not already in the courses parsed from degreeworks, the class is created as being completed
+            course= Course(CourseNum,Hours,SemesterAvailability,True)#If the course is not already in the courses parsed from degreeworks, the class is created as being completed
         Dictionary[course.CourseNum] = course
 
 
@@ -109,9 +110,10 @@ def unfinishedCourses(dictionary):
             pass
     return True
 class Course:
-    def __init__(self,CourseNum, CreditHours, completed):
+    def __init__(self,CourseNum, CreditHours, SemesterAvailability, completed):
         self.CourseNum = CourseNum
         self.CreditHours = CreditHours
+        self.SemesterAvailability = str(SemesterAvailability).split(',')
         self.Completed= completed
         self.prereq=[]
         self.takeable= False
@@ -124,6 +126,22 @@ class Course:
             else:
                 return False
         return True
+    def semesterTimeIsAvailable(self, semesterTime):
+        #finds which index in course we should compare
+        if(semesterTime=="Fall"):
+            semesterTimeIndex = 0
+        elif (semesterTime=="Spring"):
+            semesterTimeIndex = 1
+        elif (semesterTime=="Summer"):
+            semesterTimeIndex = 2
+        else:
+            semesterTimeIndex = 10 #would create error
+        
+        if(self.SemesterAvailability[semesterTimeIndex]=="1"):
+            return True
+        else:
+            return False
+            
 
 class Semester:
     def __init__(self,term,hours):
