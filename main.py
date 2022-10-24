@@ -19,5 +19,5 @@ CoursesDict = courseParser.readXL("./CPSCXL.xlsx", CoursesDict)
 
 defaultCreditHours = 15
 startingSemester = "Fall" 
-scheduler.setSchedule(defaultCreditHours, startingSemester, CoursesDict)
+schedule = scheduler.setSchedule(defaultCreditHours, startingSemester, CoursesDict)
 

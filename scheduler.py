@@ -2,7 +2,6 @@ import networkx as nx
 import courseParser
 
 
-
 def setSchedule(creditHours, startingSemester, CoursesDict):
     print("Setting Schedule: ")
     coursesInSchedule = []
@@ -73,6 +72,7 @@ def setSchedule(creditHours, startingSemester, CoursesDict):
             print(course.CourseNum + " : " + str(course.CreditHours) +" : "+ str(course.SemesterAvailability) +" : " + coursePrereqStr)
         i += 1
 
+    return schedule
 
 def setNextSemesterTime(currentSemesterTime):
     if currentSemesterTime == "Fall":
