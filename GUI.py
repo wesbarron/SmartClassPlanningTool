@@ -4,6 +4,8 @@ from tkinter import filedialog
 from tkinter import ttk
 from tkinter import messagebox
 import math
+
+from cv2 import dnn_KeypointsModel
 import courseParser
 import scheduler
 import os
@@ -26,6 +28,9 @@ class SmartClassPlanner(tk.Tk):
         fallSemester = tk.Listbox()
         sprSemester = tk.Listbox()
         sumSemester = tk.Listbox()
+        self.year = 1
+        self.schedule = []
+        self.lastYear = False
         
         self.listBoxes = [fallSemester, sprSemester, sumSemester]
         self.CreateWidgets()
@@ -42,6 +47,10 @@ class SmartClassPlanner(tk.Tk):
         sumLabel.grid(row=0,column=2)
         self.listBoxes[2].grid(row=1, column=2)
 
+        nextSemesterButton = ttk.Button(self, text="Next Semester", command = self.nextSemester)
+        nextSemesterButton.grid(pady=4, row=2,column=2)
+        prevSemesterButton = ttk.Button(self, text='Previous Semester', command=self.prevSemester)
+        prevSemesterButton.grid(pady=4, row=2,column=0)
 
         button = ttk.Button(self, text = "Upload DegreeWorks", command = self.getFilePath)
         button.grid(pady=10, row=6, column=1)
@@ -55,7 +64,7 @@ class SmartClassPlanner(tk.Tk):
         button = ttk.Button(self,text= "Quit", command= self.destroy).grid(row=12, column=1)
 
         
-             
+    
 
     def getFilePath(self):
         self.file = filedialog.askopenfilename(filetypes=[("PDFs","*.pdf")])
@@ -63,7 +72,42 @@ class SmartClassPlanner(tk.Tk):
             self.fileSelected.set(os.path.basename(self.file))
         else:
             self.fileSelected.set("No File Selected")
-        
+
+    def nextSemester(self):
+        if(self.lastYear):#TODO - Debug msg
+            print("debug")
+        else:
+            self.year += 1
+            fallSemesterNum = 3 * (self.year-1)
+            sumSemesterNum = (3 * self.year)
+            for x in range(fallSemesterNum,sumSemesterNum):
+                if(len(self.schedule)<sumSemesterNum):
+                    sumSemesterNum = len(self.schedule)-1
+                listBox = self.listBoxes[x%3]
+                listBox.delete(0, END)
+                print(x)
+                if(len(self.schedule)<=x):
+                    self.lastYear = True
+                else:
+                    for course in self.schedule[x]:
+                        listBox.insert(END, course.CourseNum)
+    def prevSemester(self):
+        if(self.year<=1): #TODO - give debug message to user
+            self.year = 1
+        else:
+            if(self.lastYear):
+                self.lastYear = False
+            self.year -= 1
+            fallSemesterNum = 3 * (self.year-1)
+            sumSemesterNum = (3 * self.year)
+            for x in range(fallSemesterNum,sumSemesterNum):
+                if(len(self.schedule)<sumSemesterNum):
+                    sumSemesterNum = len(self.schedule)-1
+                listBox = self.listBoxes[x%3]
+                listBox.delete(0, END)
+                for course in self.schedule[x]:
+                    listBox.insert(END, course.CourseNum)
+
     def execute(self):
         if self.file:
             parsed = courseParser.getContent(self.file)
@@ -74,35 +118,18 @@ class SmartClassPlanner(tk.Tk):
             startingSemester = "Fall" # TO DO - add code to get date input for starting semester
             if self.CrHours.get() > 2:
                 schedule = scheduler.setSchedule(self.CrHours.get(), startingSemester, CoursesDict)
+                self.schedule = schedule
                 self.listBoxes[0].delete(0, END)
                 self.listBoxes[1].delete(0, END)
                 self.listBoxes[2].delete(0, END)
-                i = 0
-                rowNum = 1
-                for semester in schedule:
-                    listBoxInt = i % 3
-                    
-                    if(listBoxInt == 0 and not(i==0)):
-                        
-                        rowNum += 1
-                        newListBox1 = tk.Listbox()
-                        newListBox1.grid(row=rowNum, column=0)
-                        newListBox2 = tk.Listbox()
-                        newListBox2.grid(row=rowNum, column=1)
-                        newListBox3 = tk.Listbox()
-                        newListBox3.grid(row=rowNum, column=2)
-                        self.listBoxes.append(newListBox1)
-                        self.listBoxes.append(newListBox2)
-                        self.listBoxes.append(newListBox3)
 
-                        windowHeight = str(500 + ((rowNum-1)*100))
-                        self.geometry("500x" + windowHeight)
+                for x in range(0,3):
+                    listBox = self.listBoxes[x]
+                    for course in schedule[x]:
+                        listBox.insert(END, course.CourseNum)
 
-                    listBox = self.listBoxes[i] #i instead of listBoxInt
-                    print(listBox)
-                    for course in semester:
-                        listBox.insert(END,course.CourseNum)
-                    i += 1
+
+                
                     
                 
             else:
