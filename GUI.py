@@ -128,7 +128,7 @@ class SmartClassPlanner(tk.Tk):
                     for course in schedule[x]:
                         listBox.insert(END, course.CourseNum)
 
-
+            
                 
                     
                 
