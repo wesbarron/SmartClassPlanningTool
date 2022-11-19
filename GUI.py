@@ -5,10 +5,11 @@ from tkinter import ttk
 from tkinter import messagebox
 import math
 
-from cv2 import dnn_KeypointsModel
+#from cv2 import dnn_KeypointsModel
 import courseParser
 import scheduler
 import os
+import CaseCreator
 
 
 class SmartClassPlanner(tk.Tk):
@@ -31,6 +32,7 @@ class SmartClassPlanner(tk.Tk):
         self.year = 1
         self.schedule = []
         self.lastYear = False
+        self.trackSelected = None
         
         self.listBoxes = [fallSemester, sprSemester, sumSemester]
         self.CreateWidgets()
@@ -47,10 +49,17 @@ class SmartClassPlanner(tk.Tk):
         sumLabel.grid(row=0,column=2)
         self.listBoxes[2].grid(row=1, column=2)
 
+        
         nextSemesterButton = ttk.Button(self, text="Next Semester", command = self.nextSemester)
         nextSemesterButton.grid(pady=4, row=2,column=2)
         prevSemesterButton = ttk.Button(self, text='Previous Semester', command=self.prevSemester)
         prevSemesterButton.grid(pady=4, row=2,column=0)
+
+        trackOptions = self.createTrackOptions()
+        value_inside = StringVar(self)
+        value_inside.set("Select a Track")
+        trackMenu = OptionMenu(self, value_inside, *trackOptions) 
+        trackMenu.grid(row=6, column=0)
 
         button = ttk.Button(self, text = "Upload DegreeWorks", command = self.getFilePath)
         button.grid(pady=10, row=6, column=1)
@@ -64,7 +73,11 @@ class SmartClassPlanner(tk.Tk):
         button = ttk.Button(self,text= "Quit", command= self.destroy).grid(row=12, column=1)
 
         
-    
+    def createTrackOptions(self):
+        trackList = ["WebTrack", "GamesTrack", "CyberSecurityTrack", "SoftwareTrack"]
+        return trackList
+
+        
 
     def getFilePath(self):
         self.file = filedialog.askopenfilename(filetypes=[("PDFs","*.pdf")])
@@ -117,7 +130,11 @@ class SmartClassPlanner(tk.Tk):
             globalHoursCount = self.CrHours.get()
             startingSemester = "Fall" # TO DO - add code to get date input for starting semester
             if self.CrHours.get() > 2:
-                schedule = scheduler.setSchedule(self.CrHours.get(), startingSemester, CoursesDict)
+                freshSchedule = scheduler.setSchedule(self.CrHours.get(), startingSemester, CoursesDict)
+                
+                self.trackSelected = 
+                schedule = self.createNewScheduleFromCaseLibrary(freshSchedule, )
+
                 self.schedule = schedule
                 self.listBoxes[0].delete(0, END)
                 self.listBoxes[1].delete(0, END)
@@ -136,6 +153,8 @@ class SmartClassPlanner(tk.Tk):
                 messagebox.showerror("Error", "Not enough credit hours each semester")
         else:
             messagebox.showerror("Error", "No File Selected")    
+
+    def createNewScheduleFromCaseLibrary(self, schedule):
 
 window = SmartClassPlanner()
 
