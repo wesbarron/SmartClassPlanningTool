@@ -1,6 +1,8 @@
 import networkx as nx
 import courseParser
-
+import CaseCreator
+import comparison
+import conversions
 
 def setSchedule(creditHours, startingSemester, CoursesDict):
     print("Setting Schedule: ")
@@ -83,3 +85,11 @@ def setNextSemesterTime(currentSemesterTime):
         return "Fall"
     else:
         return "No Semester Time" # error check
+
+def createNewScheduleFromCaseLibrary(schedule, track):
+        caseSchedulesWithAllTracks = CaseCreator.createCaseSchedules("./Cases.xlsx")
+        caseSchedules = comparison.GetCaseSchedulesFromTrack(caseSchedulesWithAllTracks, track)
+        caseScheduleWithHighestScore = comparison.compareScheduleToCases(schedule, caseSchedules)
+
+        schedule = conversions.replaceElectives(schedule, caseScheduleWithHighestScore)
+        return schedule
