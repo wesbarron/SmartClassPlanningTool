@@ -4,12 +4,15 @@ from tkinter import filedialog
 from tkinter import ttk
 from tkinter import messagebox
 import math
+from functools import partial
 
 #from cv2 import dnn_KeypointsModel
 import courseParser
 import scheduler
 import os
 import CaseCreator
+import comparison
+import conversions
 
 
 class SmartClassPlanner(tk.Tk):
@@ -32,7 +35,7 @@ class SmartClassPlanner(tk.Tk):
         self.year = 1
         self.schedule = []
         self.lastYear = False
-        self.trackSelected = None
+        self.trackSelected = tk.StringVar(self)
         
         self.listBoxes = [fallSemester, sprSemester, sumSemester]
         self.CreateWidgets()
@@ -56,9 +59,8 @@ class SmartClassPlanner(tk.Tk):
         prevSemesterButton.grid(pady=4, row=2,column=0)
 
         trackOptions = self.createTrackOptions()
-        value_inside = StringVar(self)
-        value_inside.set("Select a Track")
-        trackMenu = OptionMenu(self, value_inside, *trackOptions) 
+        self.trackSelected.set("Select a Track")
+        trackMenu = OptionMenu(self, self.trackSelected, *trackOptions) 
         trackMenu.grid(row=6, column=0)
 
         button = ttk.Button(self, text = "Upload DegreeWorks", command = self.getFilePath)
@@ -98,12 +100,14 @@ class SmartClassPlanner(tk.Tk):
                     sumSemesterNum = len(self.schedule)-1
                 listBox = self.listBoxes[x%3]
                 listBox.delete(0, END)
-                print(x)
                 if(len(self.schedule)<=x):
                     self.lastYear = True
                 else:
                     for course in self.schedule[x]:
-                        listBox.insert(END, course.CourseNum)
+                        if(isinstance(course,str)):
+                            listBox.insert(END, course)
+                        elif (isinstance(course, courseParser.Course)):
+                            listBox.insert(END, course.CourseNum)
     def prevSemester(self):
         if(self.year<=1): #TODO - give debug message to user
             self.year = 1
@@ -119,42 +123,53 @@ class SmartClassPlanner(tk.Tk):
                 listBox = self.listBoxes[x%3]
                 listBox.delete(0, END)
                 for course in self.schedule[x]:
-                    listBox.insert(END, course.CourseNum)
+                    if(isinstance(course,str)):
+                        listBox.insert(END, course)
+                    elif (isinstance(course, courseParser.Course)):
+                        listBox.insert(END, course.CourseNum)
 
     def execute(self):
         if self.file:
-            parsed = courseParser.getContent(self.file)
-            CoursesDict = courseParser.createFromParse(parsed)
-            CoursesDict = courseParser.readXL("CPSCXL.xlsx", CoursesDict)
-            global globalHoursCount
-            globalHoursCount = self.CrHours.get()
-            startingSemester = "Fall" # TO DO - add code to get date input for starting semester
-            if self.CrHours.get() > 2:
-                freshSchedule = scheduler.setSchedule(self.CrHours.get(), startingSemester, CoursesDict)
-                
-                self.trackSelected = 
-                schedule = self.createNewScheduleFromCaseLibrary(freshSchedule, )
-
-                self.schedule = schedule
-                self.listBoxes[0].delete(0, END)
-                self.listBoxes[1].delete(0, END)
-                self.listBoxes[2].delete(0, END)
-
-                for x in range(0,3):
-                    listBox = self.listBoxes[x]
-                    for course in schedule[x]:
-                        listBox.insert(END, course.CourseNum)
-
+            if not (self.trackSelected.get() == "Select a Track"):
+                track = self.trackSelected.get()
             
+                parsed = courseParser.getContent(self.file)
+                CoursesDict = courseParser.createFromParse(parsed)
+                CoursesDict = courseParser.readXL("CPSCXL.xlsx", CoursesDict)
+                global globalHoursCount
+                globalHoursCount = self.CrHours.get()
+                startingSemester = "Fall" # TO DO - add code to get date input for starting semester
+                if self.CrHours.get() > 2:
+                    freshSchedule = scheduler.setSchedule(self.CrHours.get(), startingSemester, CoursesDict)
+                    
+                    schedule = scheduler.createNewScheduleFromCaseLibrary(freshSchedule, track)
+                
+                    self.schedule = schedule
+                    self.listBoxes[0].delete(0, END)
+                    self.listBoxes[1].delete(0, END)
+                    self.listBoxes[2].delete(0, END)
+
+                    for x in range(0,3):
+                        listBox = self.listBoxes[x]
+                        for course in schedule[x]:
+                            if(isinstance(course,str)):
+                                listBox.insert(END, course)
+                            elif (isinstance(course, courseParser.Course)):
+                                listBox.insert(END, course.CourseNum)
+
                 
                     
-                
+                        
+                    
+                else:
+                    messagebox.showerror("Error", "Not enough credit hours each semester")
             else:
-                messagebox.showerror("Error", "Not enough credit hours each semester")
+                messagebox.showerror("Error", "No Track Selected")
         else:
             messagebox.showerror("Error", "No File Selected")    
 
-    def createNewScheduleFromCaseLibrary(self, schedule):
+    
+
 
 window = SmartClassPlanner()
 

@@ -3,6 +3,7 @@ import scheduler
 import os
 import comparison
 import CaseCreator
+import conversions
  
 #file_path = r'C:\Users\Katie\Downloads\SmartClassTool\SmartClassTool\xx\Sample_Input3.pdf'
 file_path = './Sample_Input2.pdf'
@@ -30,4 +31,6 @@ track = "SoftwareTrack" #User will define this in Front End
 caseSchedules = comparison.GetCaseSchedulesFromTrack(caseSchedulesWithAllTracks, track)
 caseScheduleWithHighestScore = comparison.compareScheduleToCases(schedule, caseSchedules)
 
+schedule = conversions.replaceElectives(schedule, caseScheduleWithHighestScore)
+conversions.printSchedule(schedule)
 

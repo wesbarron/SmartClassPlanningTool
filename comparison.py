@@ -3,7 +3,7 @@
 
 def compareScheduleToCases(schedule, caseSchedules):
     highestMatchScore = 0
-    caseWithHighestMatchScore = None
+    caseWithHighestMatchScore = caseSchedules[highestMatchScore]
     for caseSchedule in caseSchedules:
         matchScore = compareScheduleToCase(schedule, caseSchedule)
         if(matchScore > highestMatchScore):
@@ -41,4 +41,5 @@ def findNumOfSemesters(schedule):
 
 def GetCaseSchedulesFromTrack(caseSchedulesAll, userTrack):
     return caseSchedulesAll[userTrack]
-    
+
+
