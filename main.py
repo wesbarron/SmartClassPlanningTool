@@ -34,5 +34,23 @@ caseScheduleWithHighestScore = comparison.compareScheduleToCases(schedule, caseS
 schedule = conversions.replaceElectives(schedule, caseScheduleWithHighestScore)
 conversions.printSchedule(schedule)
 
-conversions.buildSchedule(schedule, defaultCreditHours)
 
+
+conversions.buildSchedule(schedule, defaultCreditHours, "schedule1.xlsx")
+
+#Second excel output
+
+
+print("Starting parser 2")
+parsed2 = courseParser.getContent(file_path)
+CoursesDict2= courseParser.createFromParse(parsed2)
+CoursesDict2 = courseParser.readXL("./CPSCXL.xlsx", CoursesDict2)
+
+schedule2 = scheduler.setSchedule(defaultCreditHours, startingSemester, CoursesDict2)
+caseSchedulesWithAllTracks = CaseCreator.createCaseSchedules("./Cases.xlsx") #dictionary with keys based on track
+track2 = "WebTrack" #User will define this in Front End
+caseSchedules2 = comparison.GetCaseSchedulesFromTrack(caseSchedulesWithAllTracks, track2)
+caseScheduleWithHighestScore2 = comparison.compareScheduleToCases(schedule2, caseSchedules2)
+schedule2 = conversions.replaceElectives(schedule2, caseScheduleWithHighestScore2)
+
+conversions.buildSchedule(schedule2, defaultCreditHours, "schedule2.xlsx")
