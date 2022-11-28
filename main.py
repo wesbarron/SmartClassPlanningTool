@@ -34,3 +34,4 @@ caseScheduleWithHighestScore = comparison.compareScheduleToCases(schedule, caseS
 schedule = conversions.replaceElectives(schedule, caseScheduleWithHighestScore)
 conversions.printSchedule(schedule)
 
+conversions.buildSchedule(schedule, defaultCreditHours)
