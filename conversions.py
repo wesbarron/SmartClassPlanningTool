@@ -24,7 +24,7 @@ def printSchedule(schedule):
             elif (isinstance(course, courseParser.Course)):
                 print(course.CourseNum)
             
-def buildSchedule(schedule, hours):
+def buildSchedule(schedule, hours, fileName):
 
     wb = load_workbook('schedule.xlsx')
     ws = wb.active
@@ -202,5 +202,5 @@ def buildSchedule(schedule, hours):
         coursesInWorkBook.append("CPSC 4000")
 
 
-    wb.save("scheduleResult.xlsx")
-    print("Please open the file 'scheduleResult.xlsx' to view your schedule.")
+    wb.save(fileName)
+    print("Please open the files " + fileName + " to view your schedule.")
