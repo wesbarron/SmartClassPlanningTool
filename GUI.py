@@ -74,6 +74,7 @@ class SmartClassPlanner(tk.Tk):
         button = ttk.Button(self,text = "Generate Schedule",command= self.execute).grid(row=11, column=1)
         button = ttk.Button(self,text= "Quit", command= self.destroy).grid(row=12, column=1)
 
+
         
     def createTrackOptions(self):
         trackList = ["WebTrack", "GamesTrack", "CyberSecurityTrack", "SoftwareTrack"]
@@ -156,9 +157,11 @@ class SmartClassPlanner(tk.Tk):
                                 listBox.insert(END, course)
                             elif (isinstance(course, courseParser.Course)):
                                 listBox.insert(END, course.CourseNum)
-
-                
                     
+                    #save file as dialog
+                    scheduleFileStr = tk.filedialog.asksaveasfilename(defaultextension=".xlsx")
+                    scheduleFileDirArray = scheduleFileStr.split("/")
+                    conversions.buildSchedule(schedule, self.CrHours.get(), scheduleFileDirArray[-1])
                         
                     
                 else:
