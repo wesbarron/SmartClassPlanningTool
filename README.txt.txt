@@ -14,8 +14,9 @@ Dependencies:
 	This program requires an up-to-date version of Python-3 be installed on the user's system. Failure to meet this requirement may cause unexpected compile-time errors.
 	This program uses Tkinter, PyPDF2, and OpenPyXL these can be installed with the following command:
 		
-		```python
+		```
 		pipinstall -r requirements.txt
+		
 		```
 
 Installing:
