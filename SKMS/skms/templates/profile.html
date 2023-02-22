@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
+    <link rel="stylesheet" id="roboto-subset.css-css" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/mdb5/fonts/roboto-subset.css?ver=3.9.0-update.5" type="text/css" media="all">
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>User Profile</title>
+</head>
+<!-- <body>
+    <div name="user_profile" id="user_profile">
+        <h1>User Profile</h1>
+        <br>
+        <label>First Name: </label><strong name="first_name" type="name" value="{{ first_name }}"> {{ first_name }} </strong>
+        <br>
+        <label>Last Name: </label><strong name="last_name" type="name" value="{{ last_name }}"> {{ last_name }} </strong>
+        <br>
+        <label>User Name: </label><strong name="user_name" type="name" value="{{ user_name }}"> {{ user_name }} </strong>
+        <br>
+        <label>Email: </label><strong name="email" type="name" value="{{ email }}"> {{ email }} </strong>
+    </div>
+</body> -->
+<body>
+<!-- <form action="/blog.html"> -->
+<section class="vh-100" style="background-color: #f4f5f7;">
+    <div class="container py-5 h-50">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-8 mb-4 mb-lg-0">
+          <div class="card mb-3" style="border-radius: .5rem;">
+            <div class="row g-0">
+              <div class="col-md-4 gradient-custom text-center text-white" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; background-color: black;">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                  alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                <h5><em id="first_name" name="first_name" value="{{ first_name }}">{{ first_name }}</em> <em id="last_name" name="last_name" value="{{ last_name }}">{{ last_name }}</em></h5>
+                <p name="position">{{ position }}</p>
+                <!-- Trigger the modal with a button -->
+                <button onclick="setName()" type="button" class="btn btn-link btn-black" data-toggle="modal" data-target="#myModal"><i class="far fa-edit mb-5"></i></button>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog modal-sm">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+                        <h4 class="text-left" style="color: black;">Edit your Information</h4>
+                      </div>
+                      <div class="modal-title-" style="color: black;">
+                        <div class="form-group">
+                          <label name="fName" for="fName">First Name:</label>
+                          <input type="text" class="form-control text-center" id="fName" value="">
+                          <label name="lName" for="lName">Last Name:</label>
+                          <input type="text" class="form-control text-center" id="lName" value="">
+                          <!-- <label name="password" for="usr">Password:</label>
+                          <input type="password" class="form-control text-center" id="usr" placeholder="Password"> -->
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h6>Information</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Email</h6>
+                      <p class="text-muted" name="email">{{ email }}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Username</h6>
+                      <p class="text-muted" name="user_name">{{ user_name }}</p>
+                    </div>
+                  </div>
+                  
+                </div>
+                <section>
+                    <div class="row align-items-center h-10" style="width: fit-content; margin-left: auto; margin-right: auto;">
+                      <a class="btn btn-block btn-success rounded-0 py-2 mb-2 bg-op-2 roboto-bold" href="blog.html">View SKMS Topics</a>
+                    </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+ 
+          </div>
+          
+        </div>
+      </div>
+</body>
+      <script>
+
+        function setName(){
+          first_name = document.getElementById("first_name").getAttribute("value");
+          last_name = document.getElementById("last_name").getAttribute("value");
+          document.getElementById("fName").setAttribute("value", first_name);
+          document.getElementById("lName").setAttribute("value", last_name);
+        }
+        
+      </script>
+
+
+</html>
